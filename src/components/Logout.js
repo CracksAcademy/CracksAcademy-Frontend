@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 export default function Logout ({handleSubmitLogout, ...props}) {
 
@@ -7,7 +6,7 @@ export default function Logout ({handleSubmitLogout, ...props}) {
         <form onClick={handleSubmitLogout}>
             <div className='text-center'>
             <button id='form-logout-button' className='btn btn-warning'>
-            Logout
+            Cerrar sesión
             </button>
             </div>
         </form>
