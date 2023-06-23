@@ -5,9 +5,11 @@ export default function Logout ({handleSubmitLogout, ...props}) {
 
     return (
         <form onClick={handleSubmitLogout}>
-            <button id='form-logout-button'>
+            <div className='text-center'>
+            <button id='form-logout-button' className='btn btn-warning'>
             Logout
             </button>
+            </div>
         </form>
     )
 
