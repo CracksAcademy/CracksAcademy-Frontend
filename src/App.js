@@ -5,9 +5,7 @@ import LoginForm from './components/LoginForm.js'
 import Logout from './components/Logout.js'
 
 const App = () => {
-  const [notes, setNotes] = useState([]) 
   
-  const [showAll, setShowAll] = useState(true)
   const [errorMessage, setErrorMessage] = useState(null)
 
   const [username, setUsername] = useState('')
@@ -21,10 +19,6 @@ const App = () => {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
       setToken(token)
-
-    } else {
-      setUser(null)
-      setToken(null)
     }
   }, [])
   
@@ -69,7 +63,7 @@ const App = () => {
   
   return (
     <div className="container">
-      <h1 className="text-center ">LOGIN</h1>
+      <h1 className="text-center text-primary">LOGIN</h1>
 
       <Notification message={errorMessage} />
 
