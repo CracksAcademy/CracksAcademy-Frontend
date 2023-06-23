@@ -14,7 +14,7 @@ const App = () => {
   const [, setToken] = useState(null);
 
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedAppUser');
+    const loggedUserJSON = window.localStorage.getItem('tokenLoggedUser');
     if (loggedUserJSON) {
       const { user, token } = JSON.parse(loggedUserJSON);
       setUser(user);
@@ -37,14 +37,14 @@ const App = () => {
       });
 
       window.localStorage.setItem(
-        'loggedAppUser',
+        'tokenLoggedUser',
         JSON.stringify({ user, token })
       );
 
       setToken(token);
       setUser(user);
     } catch (e) {
-      setErrorMessage('Wrong credentials');
+      setErrorMessage('Credenciales inválidas');
       setTimeout(() => {
         setErrorMessage(null);
       }, 5000);
@@ -54,14 +54,13 @@ const App = () => {
   const handleLogout = () => {
     setUser(null);
     setToken(null);
-    window.localStorage.removeItem('loggedAppUser');
+    window.localStorage.removeItem('tokenLoggedUser');
   };
 
   return (
     <div className="container">
       <Notification message={errorMessage} />
 
-      
           {user ? (
             <>
               <CustomNavbar action={handleLogout}/>
