@@ -7,7 +7,7 @@ const Notification = ({ message }) => {
 
   return (
 
-    <div class="alert alert-warning mt-4">
+    <div className="alert alert-warning mt-4">
         {message}
     </div>
 

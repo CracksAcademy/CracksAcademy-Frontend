@@ -5,6 +5,7 @@ import LoginForm from './components/LoginForm';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Welcome from './components/Welcome';
 import CustomNavbar from './components/Navbar';
+import './App.css';
 
 const App = () => {
   const [errorMessage, setErrorMessage] = useState(null);
@@ -58,7 +59,7 @@ const App = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container" style={{ background: 'rgb(170, 238, 235)', height: '100vh', width: '100vw' }}>
       <Notification message={errorMessage} />
 
           {user ? (
