@@ -1,85 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import Notification from './components/Notification';
-import loginService from './services/login';
-import LoginForm from './components/LoginForm';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Welcome from './components/Welcome';
-import CustomNavbar from './components/Navbar';
 import './App.css';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import UserForm from './components/UserForm';
 
 const App = () => {
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [user, setUser] = useState(null);
-  const [, setToken] = useState(null);
-
-  useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('tokenLoggedUser');
-    if (loggedUserJSON) {
-      const { user, token } = JSON.parse(loggedUserJSON);
-      setUser(user);
-      setToken(token);
-    }
-  }, []);
-
-  const handleLogin = async (event) => {
-    event.preventDefault();
-
-    try {
-      const token = await loginService.token({
-        username,
-        password,
-      });
-
-      const user = await loginService.login({
-        username,
-        password,
-      });
-
-      window.localStorage.setItem(
-        'tokenLoggedUser',
-        JSON.stringify({ user, token })
-      );
-
-      setToken(token);
-      setUser(user);
-    } catch (e) {
-      setErrorMessage('Credenciales inválidas');
-      setTimeout(() => {
-        setErrorMessage(null);
-      }, 5000);
-    }
-  };
-
-  const handleLogout = () => {
-    setUser(null);
-    setToken(null);
-    window.localStorage.removeItem('tokenLoggedUser');
-  };
 
   return (
-    <div className="container" style={{ background: 'rgb(170, 238, 235)', height: '100vh', width: '100vw' }}>
-      <Notification message={errorMessage} />
-
-          {user ? (
-            <>
-              <CustomNavbar action={handleLogout}/>
-              <Welcome user={user} />
-            </>
-          ) : (
-            
-              <LoginForm
-                username={username}
-                password={password}
-                handleUsernameChange={({ target }) => setUsername(target.value)}
-                handlePasswordChange={({ target }) => setPassword(target.value)}
-                handleSubmit={handleLogin}
-              />
-            
-          )}
-        
-    </div>
+    <>
+    <Router>
+      <Routes>
+        <Route exact path="/" element={< Welcome />} />
+        <Route exact path="/users/new" element={<UserForm />} />
+      </Routes>
+    </Router>
+    </>
   );
 };
 
