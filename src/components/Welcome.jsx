@@ -20,6 +20,7 @@ export default function Welcome () {
       const { user, token } = JSON.parse(loggedUserJSON);
       setUser(user);
       setToken(token);
+      user.gender ==='FEMENINO' ? setMensajeBienvenida('Bienvenida') : setMensajeBienvenida('Bienvenido');
     }
   }, []);
 
