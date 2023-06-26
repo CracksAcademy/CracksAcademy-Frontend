@@ -7,4 +7,19 @@ const newUser = async user => {
     return data
 }
 
-export default { newUser }
+const cities = async () => {
+    const { data } = await axios.get(baseUrl + "/cities")
+    return data
+}
+
+const roles = async () => {
+    const { data } = await axios.get(baseUrl + "/roles")
+    return data
+}
+
+const gender = async () => {
+    const { data } = await axios.get(baseUrl + "/gender")
+    return data
+}
+
+export default { newUser, cities, roles, gender}
