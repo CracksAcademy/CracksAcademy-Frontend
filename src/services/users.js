@@ -22,4 +22,9 @@ const gender = async () => {
     return data
 }
 
-export default { newUser, cities, roles, gender}
+const checkUsername = async () => {
+    const { data } = await axios.get(baseUrl + "/get-all")
+    return data
+}
+
+export default { newUser, cities, roles, gender, checkUsername}
