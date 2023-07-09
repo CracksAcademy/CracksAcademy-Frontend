@@ -12,4 +12,9 @@ const allCoaches = async () => {
   return data
 }
 
-export default { getCoach, allCoaches }
+const studentsByCoach = async (id) => {
+  const { data } = await axios.get(baseUrl + `/get/students/${id}`)
+  return data
+}
+
+export default { getCoach, allCoaches,studentsByCoach }

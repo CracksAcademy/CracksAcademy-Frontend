@@ -9,6 +9,7 @@ export default function CoachesList() {
     
     const [coaches, setCoaches] = React.useState([]);
     const [userLog, setUserLog] = React.useState([]);
+    const [studentsByCoach, setStudentsByCoach] = React.useState([]);
 
     React.useEffect(() => {
         const getAllCoaches = async () => {
@@ -30,6 +31,8 @@ export default function CoachesList() {
         window.localStorage.removeItem('tokenLoggedUser');
         window.location.href = '/';
     };
+
+    console.log(studentsByCoach)
 
     return (
         <>
