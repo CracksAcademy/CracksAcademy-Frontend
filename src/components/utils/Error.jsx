@@ -1,6 +1,6 @@
 import React from 'react'
 import gifImage from '../../resources/perro.gif'
-import './Error.css'; // Importa el archivo de estilos CSS
+import '../../css/Error.css'
 
 function Error() {
   return (

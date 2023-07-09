@@ -1,21 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Table } from 'react-bootstrap';
-import coachService from '../../services/coaches.js';
+import studentService from '../../services/students.js';
 import userService from '../../services/users.js';
 import CustomNavbar from '../utils/Navbar';
 
-export default function CoachesList() {
+export default function StudentsList() {
     
-    const [coaches, setCoaches] = React.useState([]);
+    const [students, setStudents] = React.useState([]);
     const [userLog, setUserLog] = React.useState([]);
 
     React.useEffect(() => {
-        const getAllCoaches = async () => {
-            const listCoaches = await coachService.allCoaches();
-            setCoaches(listCoaches);
+        const getAllStudents = async () => {
+            const list = await studentService.allStudents();
+            setStudents(list);
         }
-        getAllCoaches();
+        getAllStudents();
 
         const getUserLog = async () => {
             const user = await userService.getUserLogeado();
@@ -39,7 +39,7 @@ export default function CoachesList() {
                     <CustomNavbar action={handleLogout} id={userLog.id} />
 
                     <div>
-                        <h1 className='pb-4'>Lista de coaches</h1>
+                        <h1 className='pb-4'>Lista de alumnos</h1>
                         <Table striped bordered hover>
                             <thead>
                                 <tr>
@@ -51,14 +51,14 @@ export default function CoachesList() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {coaches.map((coach) => (
-                                    <tr key={coach.id}>
-                                        <td> <img src={coach.avatar} alt="avatar" style={{ width: '50px', height: '50px' }} /></td>
-                                        <td>{coach.name}</td>
-                                        <td>{coach.lastName}</td>
-                                        <td>{coach.email}</td>
+                                {students.map((student) => (
+                                    <tr key={student.id}>
+                                        <td> <img src={student.avatar} alt="avatar" style={{ width: '50px', height: '50px' }} /></td>
+                                        <td>{student.name}</td>
+                                        <td>{student.lastName}</td>
+                                        <td>{student.email}</td>
                                         <td>
-                                            <Link to={`/users/${coach.id}`}>
+                                            <Link to={`/users/${student.id}`}>
                                                 <button className="btn btn-primary">Ver</button>
                                             </Link>
                                         </td>
@@ -68,7 +68,7 @@ export default function CoachesList() {
                         </Table>
                         <div className='pt-4'>
                             <Link to="/users/new">
-                                <button className="btn btn-primary">Crear coach</button>
+                                <button className="btn btn-primary">Crear student</button>
                             </Link>
                         </div>
 

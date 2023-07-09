@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import userService from '../../services/users';
 import { BsExclamationTriangleFill } from 'react-icons/bs';
 import CustomNavbar from '../utils/Navbar';
+import fetchData from '../../services/utils/fetchData';
 
 export default function UserForm () {
 
@@ -47,7 +48,6 @@ const [userLog, setUserLog] = React.useState([]);
   const handleTelephoneChange = (event) => setTelephone(event.target.value);
   
 
-  
 
   const handleCreateUser = async (event) => {
     event.preventDefault();
@@ -80,19 +80,6 @@ const [userLog, setUserLog] = React.useState([]);
         } catch (error) {
           console.log(error);
         }
-    }
-  };
- 
-  const fetchData = async (getData, setData) => {
-    try {
-      const response = await getData();
-      const dataWithId = response.map((item, index) => ({
-        id: index,
-        name: item
-      }));
-      setData(dataWithId);
-    } catch (error) {
-      console.error('Error fetching data:', error);
     }
   };
 

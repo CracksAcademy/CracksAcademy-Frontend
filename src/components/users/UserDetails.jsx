@@ -41,6 +41,8 @@ export default function UserDetails() {
     window.location.href = '/';
   };
 
+console.log(studentsByCoach)
+
   return (
     <>
 
@@ -75,10 +77,10 @@ export default function UserDetails() {
                           <img src={student.user.avatar} className="card-img-top" alt="..." />
                         </Link>
                         <div className="card-body">
-                          <h5 className="card-title">{student.user.name}</h5>
+                          <h5 className="card-title">{student.user.username}</h5>
+                          <p className="card-text">{student.user.name}</p>
                           <p className="card-text">{student.user.lastName}</p>
                           <p className="card-text">{student.user.email}</p>
-                          <p className="card-text">{student.user.username}</p>
                           <p className="card-text">{student.user.rolUser}</p>
                         </div>
                       </card>

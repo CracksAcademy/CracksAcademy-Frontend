@@ -16,12 +16,12 @@ export default function CustomNavbar ({action,id, ...props}) {
         <Nav className='mx-auto'>
           <Nav.Link href="/">Inicio</Nav.Link>
           <Nav.Link href="/users">Usuarios</Nav.Link>
-          <Nav.Link href="#">Formacion</Nav.Link>
-          <Nav.Link href="#">Calendario</Nav.Link>
+          <Nav.Link href="#"><del>Formacion</del></Nav.Link>
+          <Nav.Link href="#"><del>Calendario</del></Nav.Link>
           <Nav.Link href="/coaches">Coaches</Nav.Link>
-          <Nav.Link href="#">Alumnos</Nav.Link>
-          <Nav.Link href="#">Sustituciones</Nav.Link>
-          <Nav.Link href="#">Material</Nav.Link>
+          <Nav.Link href="/students">Alumnos</Nav.Link>
+          <Nav.Link href="#"><del>Sustituciones</del></Nav.Link>
+          <Nav.Link href="#"><del>Material</del></Nav.Link>
         </Nav>
         <Nav>
           <NavDropdown title="Mi perfil" id="navbar-dropdown">

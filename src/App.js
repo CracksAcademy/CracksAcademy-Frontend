@@ -6,6 +6,7 @@ import UserForm from './components/users/UserForm';
 import UsersList from './components/users/UsersList';
 import UserDetails from './components/users/UserDetails';
 import CoachesList from './components/coaches/CoachesList';
+import StudentsList from './components/students/StudentsList';
 import Error from './components/utils/Error';
 
 const App = () => {
@@ -19,6 +20,9 @@ const App = () => {
           <Route exact path="/users/new" element={<UserForm />} />
           <Route exact path="/users/:id" element={<UserDetails />} />
           <Route exact path="/coaches" element={<CoachesList />} />
+
+          <Route exact path="/students" element={<StudentsList />} />
+
           <Route path="*" element={<Error />} />
       </Routes>
     </Router>
