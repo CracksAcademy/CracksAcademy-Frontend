@@ -106,7 +106,6 @@ export default function UserForm() {
             coordinator: 'May',
             user: createdUser.id
           };
-          await coachService.createCoach(newCoach);
         }
         setCreado(true);
       } catch (error) {
