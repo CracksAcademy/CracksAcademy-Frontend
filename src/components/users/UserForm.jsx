@@ -125,15 +125,6 @@ export default function UserForm() {
         const response = await userService.newUser(newUser);
         setCreatedUser(response);
         console.log(createdUser);
-
-        if (selectedRole === 'COACH') {
-          // Crea un nuevo registro en la tabla Coach con el id del usuario creado
-          const newCoach = {
-            moneybox: '',
-            coordinator: 'May',
-            user: createdUser.id
-          };
-        }
         setCreado(true);
       } catch (error) {
         console.log(error);
