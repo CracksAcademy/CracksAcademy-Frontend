@@ -13,6 +13,7 @@ export default function UserDetails() {
   const { id } = useParams();
   const [studentsByCoach, setStudentsByCoach] = React.useState([]);
   const [coachByStudent, setCoachByStudent] = React.useState([]);
+  const [coachPerfil, setCoachPerfil] = React.useState([]);
 
   React.useEffect(() => {
     const getUser = async () => {
@@ -24,6 +25,8 @@ export default function UserDetails() {
         if (user.rolUser === 'COACH') {
           const students = await coachService.studentsByCoach(id);
           setStudentsByCoach(students);
+          const coachPerfil = await coachService.getCoachByUserId(id);
+          setCoachPerfil(coachPerfil);
         } else if (user.rolUser === 'STUDENT') {
           try {
             const coach = await studentService.coachByStudent(id);
@@ -51,6 +54,8 @@ export default function UserDetails() {
     window.location.href = '/';
   };
 
+  console.log(user);
+
   return (
     <>
       {user ? (
@@ -60,10 +65,15 @@ export default function UserDetails() {
           <div className="row justify-content-center mx-auto">
             <div className="col-sm-6 col-md-4">
               <h1 className='mb-3 pb-3'>Detalles del usuario</h1>
-              <BasicCard object={user} />
+              <BasicCard object={user} profile />
               <div className='mt-4'>
                 {user.rolUser === 'COACH' && (
                   <>
+                    <h4 className='text-center mb-2 pb-2'>Su coordinador es:
+                    {coachPerfil && (
+                        <p> {coachPerfil.coordinator}</p>
+                    )}
+                    </h4>
                     <h4 className='text-center mb-3 pb-3'>Sus alumnos:</h4>
                     {studentsByCoach.map((student) => (
                       <BasicCard key={student.id} object={student.user} />

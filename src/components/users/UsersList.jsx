@@ -24,6 +24,11 @@ export default function UsersList() {
       setUserLog(user);
     };
     getUserLog();
+
+    if (userLog == null) {
+      window.localStorage.removeItem('tokenLoggedUser');
+      window.location.href = '/';
+    }
   }, []);
 
   const handleLogout = () => {

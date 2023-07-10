@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import userService from '../../services/users';
 import { BsExclamationTriangleFill } from 'react-icons/bs';
 import CustomNavbar from '../utils/Navbar';
 import fetchData from '../../services/utils/fetchData';
+import coachService from '../../services/coaches';
 import { validateUsername, validatePassword, validateName, validateLastName, validateCity, validateTelephone, validateEmail, validateGender, validateRolUser } from '../../services/utils/validaciones';
-import { BadgeRoot } from '@mui/material';
 
 export default function UserForm() {
+
+
+  const [moneybox, setMoneybox] = useState('');
+  //const [moneyboxError, setMoneyboxError] = useState('');
+  const [coordinator, setCoordinator] = useState('');
+  //const [coordinatorError, setCoordinatorError] = useState('');
+  const [createdUser, setCreatedUser] = useState([]);
 
   // Manejo de estados
   const [userLog, setUserLog] = React.useState([]);
@@ -22,6 +28,7 @@ export default function UserForm() {
   const [rolUser, setRolUser] = useState('');
   const [city, setCity] = useState('');
   const [telephone, setTelephone] = useState('');
+  const [avatar, setAvatar] = useState('');
 
   // Añadimos un estado para el mensaje de error
   const [usernameError, setUsernameError] = useState('');
@@ -33,8 +40,6 @@ export default function UserForm() {
   const [emailError, setEmailError] = useState('');
   const [genderError, setGenderError] = useState('');
   const [rolUserError, setRolUserError] = useState('');
-
-  const [selectedRole, setSelectedRole] = useState('');
 
 
   // Lista de atributos en los select
@@ -54,8 +59,28 @@ export default function UserForm() {
   const handleRolUserChange = (event) => {
     const selectedRole = event.target.value;
     setRolUser(selectedRole);
-    setSelectedRole(selectedRole);
   };
+  const handleAvatarChange = (event) => setAvatar(event.target.value);
+  const handleMoneyboxChange = (event) => setMoneybox(event.target.value);
+  const handleCoordinatorChange = (event) => setCoordinator(event.target.value); 
+
+  const handleCreateRol = async (event) => {
+    event.preventDefault();
+    try {
+      const newCoach = {
+        moneybox: moneybox,
+        coordinator: coordinator,
+        user: createdUser,
+      };
+      const response = await coachService.newCoach(newCoach);
+      console.log(response);
+      window.location.href = '/';
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
   const handleCityChange = (event) => setCity(event.target.value);
   const handleTelephoneChange = (event) => setTelephone(event.target.value);
 
@@ -94,46 +119,16 @@ export default function UserForm() {
           rolUser: rolUser,
           city: city,
           telephone: telephone,
+          avatar: avatar,
         };
 
-        const createdUser = await userService.newUser(newUser);
+        const response = await userService.newUser(newUser);
+        setCreatedUser(response);
         console.log(createdUser);
-
-        if (selectedRole === 'COACH') {
-          // Crea un nuevo registro en la tabla Coach con el id del usuario creado
-          const newCoach = {
-            moneybox: '',
-            coordinator: 'May',
-            user: createdUser.id
-          };
-        }
         setCreado(true);
       } catch (error) {
         console.log(error);
       }
-    }
-  };
-
-
-  const renderRoleForm = () => {
-    if (selectedRole == 1) {
-      return (
-        <>
-          <div className='bg-info bg-opacity-10 container text-center mb-3' style={{ height: '80px', width: '400px' }}>
-            <p>Formulario para ser coach</p>
-            <p>Poner select con los coordinadores disponibles</p>
-          </div>
-        </>
-      );
-    } else if (selectedRole == 3) {
-      return (
-        <div className='bg-info bg-opacity-10 container text-center mb-3' style={{ height: '80px', width: '400px' }}>
-            <p>Formulario para ser student</p>
-            <p>Poner select con los coaches disponibles</p>
-          </div>
-      );
-    } else {
-      return null;
     }
   };
 
@@ -160,17 +155,73 @@ export default function UserForm() {
       <div className="container text-center" style
         ={{ height: '100vh', width: '100vw' }}>
         <CustomNavbar action={handleLogout} id={userLog.id} />
-        {creado && (
+        {creado && createdUser.rolUser == 'COACH' && (
           <div className="row justify-content-center">
             <div className="col-sm-6 col-md-4">
-              <h1 className="text-center pt-4 pb-4">Usuario creado</h1>
-              <h2 className="text-center pt-4 pb-4">Ya puedes iniciar sesión</h2>
-              <Link to="/" style={{ display: 'flex', justifyContent: 'center' }}>
-                <button className="btn btn-primary btn-lg btn-block mt-5">Volver al menú principal</button>
-              </Link>
+              <h1 className="text-center pt-4 pb-4">Registro de rol</h1>
+              <form onSubmit={handleCreateRol}>
+                <div className="mb-3">
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={moneybox}
+                    name="Moneybox"
+                    placeholder="Moneybox"
+                    onChange={handleMoneyboxChange}
+                  />
+                </div>
+                <div className="mb-3">
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={coordinator}
+                    name="Coordinator"
+                    placeholder="Coordinator"
+                    onChange={handleCoordinatorChange}
+                  />
+                </div>
+                <button type="submit" className="btn btn-primary">
+                  Registrarse
+                </button>
+              </form>
+
             </div>
           </div>
-        )}    {!creado && (
+        )}
+        {creado && createdUser.rolUser == 'STUDENT' && (
+          <div className="row justify-content-center">
+            <div className="col-sm-6 col-md-4">
+              <h1 className="text-center pt-4 pb-4">Registro de rol</h1>
+              <form onSubmit={handleCreateRol}>
+                <div className="mb-3">
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={moneybox}
+                    name="Moneybox"
+                    placeholder="Moneybox"
+                    onChange={handleMoneyboxChange}
+                  />
+                </div>
+                <div className="mb-3">
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={coordinator}
+                    name="Coordinator"
+                    placeholder="Coordinator"
+                    onChange={handleCoordinatorChange}
+                  />
+                </div>
+                <button type="submit" className="btn btn-primary">
+                  Registrarse
+                </button>
+              </form>
+
+            </div>
+          </div>
+        )}
+        {!creado && (
           <div className="row justify-content-center">
             <div className="col-sm-6 col-md-4">
               <h1 className="text-center pt-4 pb-4">Registro de usuario</h1>
@@ -301,6 +352,12 @@ export default function UserForm() {
                       </option>
                     ))}
                   </select>
+
+                  <div className='bg-info bg-opacity-10 container text-center mb-3' style={{ height: '80px', width: '400px' }}>
+                    <p>Al registrarse, aparecerá un nuevo formulario </p>
+                    <p>dependiendo del rol seleccionado.</p>
+                  </div>
+
                 </div>
                 {rolUserError && (
                   <div className="error-message" style={{ color: 'orange' }}>
@@ -308,8 +365,6 @@ export default function UserForm() {
                     {rolUserError}
                   </div>
                 )}
-
-                {renderRoleForm()}
 
                 <div className="mb-3">
                   <select
@@ -341,16 +396,27 @@ export default function UserForm() {
                     value={telephone}
                     name="telephone"
                     placeholder="Teléfono"
-                    onChange={handleTelephoneChange} ç
+                    onChange={handleTelephoneChange} 
                     onBlur={() => setTelephoneError(validateTelephone(telephone))}
                   />
-                </div>
                 {telephoneError && (
                   <div className="error-message" style={{ color: 'orange' }}>
                     <BsExclamationTriangleFill className="warning-icon" />
                     {telephoneError}
                   </div>
                 )}
+                </div>
+
+                <div className="mb-3">
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={avatar}
+                    name="avatar"
+                    placeholder="Avatar"
+                    onChange={handleAvatarChange} 
+                    />
+                </div>
                 <button type="submit" className="btn btn-primary">
                   Registrarse
                 </button>

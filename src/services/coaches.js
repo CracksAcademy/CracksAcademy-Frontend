@@ -17,5 +17,16 @@ const studentsByCoach = async (id) => {
   return data
 }
 
+const newCoach = async coach => {
+  const { data } = await axios.post(baseUrl + "/new", coach)
+  return data
+}
+
+const getCoachByUserId = async (id) => {
+  const { data } = await axios.get(baseUrl + `/get/user/${id}`)
+  return data
+}
+
+
 // eslint-disable-next-line
-export default { getCoach, allCoaches, studentsByCoach }
+export default { getCoach, allCoaches, studentsByCoach, newCoach, getCoachByUserId }

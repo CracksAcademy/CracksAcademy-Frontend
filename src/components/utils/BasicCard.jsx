@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link } from 'react-router-dom';
 import { Card, Button } from 'react-bootstrap';
 
-export default function BasicCard({ object }) {
+export default function BasicCard({ object, profile = false }) {
   const cardStyles = {
     marginBottom: '20px',
   };
@@ -48,9 +48,17 @@ export default function BasicCard({ object }) {
             {object.email}<br />
             <b>{rol}</b>
           </Card.Text>
-          <Link to={`/users/${object.id}`}>
-            <Button variant="primary">Ver</Button>
-          </Link>
+          {!profile && (
+            <Link to={`/users/${object.id}`}>
+              <Button variant="primary">Ver</Button>
+            </Link>
+          )}
+          {profile && (
+            <Link to={`/users/${object.id}/edit`}>
+              <Button variant="primary">Editar</Button>
+            </Link>
+          )}
+
         </div>
       </Card.Body>
     </Card>
