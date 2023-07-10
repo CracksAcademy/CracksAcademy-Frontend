@@ -18,6 +18,7 @@ export default function CustomNavbar ({action,id, ...props}) {
           <Nav.Link href="/users">Usuarios</Nav.Link>
           <Nav.Link href="/formation"><del>Formacion</del></Nav.Link>
           <Nav.Link href="/calendar"><del>Calendario</del></Nav.Link>
+          <Nav.Link href="/coordinators">Coordinadores</Nav.Link>
           <Nav.Link href="/coaches">Coaches</Nav.Link>
           <Nav.Link href="/students">Alumnos</Nav.Link>
           <Nav.Link href="/sust"><del>Sustituciones</del></Nav.Link>
