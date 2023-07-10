@@ -20,9 +20,7 @@ const App = () => {
           <Route exact path="/users/new" element={<UserForm />} />
           <Route exact path="/users/:id" element={<UserDetails />} />
           <Route exact path="/coaches" element={<CoachesList />} />
-
           <Route exact path="/students" element={<StudentsList />} />
-
           <Route path="*" element={<Error />} />
       </Routes>
     </Router>
