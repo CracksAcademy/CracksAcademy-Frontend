@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Row, Col, Button } from 'react-bootstrap';
 import coachService from '../../services/coaches.js';
+import studentService from '../../services/students.js';
 import userService from '../../services/users.js';
 import CustomNavbar from '../utils/Navbar';
 import BasicCard from '../utils/BasicCard.jsx';
@@ -18,6 +19,22 @@ export default function CoachesList() {
         }
         getAllCoaches();
 
+        ///////////////////////////////////////////
+        
+        const getCoachId = async () => {
+            const coach = await coachService.getCoachByUserId(2);
+            console.log(coach);
+        }
+        getCoachId();
+
+        const getStudentId = async () => {
+            const student = await studentService.studentById(1);
+            console.log(student);
+        }
+        getStudentId();
+
+        ///////////////////////////////////////////
+        
         const getUserLog = async () => {
             const user = await userService.getUserLogeado();
             setUserLog(user);

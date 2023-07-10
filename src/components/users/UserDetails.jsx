@@ -54,6 +54,8 @@ export default function UserDetails() {
     window.location.href = '/';
   };
 
+  console.log(user);
+
   return (
     <>
       {user ? (

@@ -188,6 +188,39 @@ export default function UserForm() {
             </div>
           </div>
         )}
+        {creado && createdUser.rolUser == 'STUDENT' && (
+          <div className="row justify-content-center">
+            <div className="col-sm-6 col-md-4">
+              <h1 className="text-center pt-4 pb-4">Registro de rol</h1>
+              <form onSubmit={handleCreateRol}>
+                <div className="mb-3">
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={moneybox}
+                    name="Moneybox"
+                    placeholder="Moneybox"
+                    onChange={handleMoneyboxChange}
+                  />
+                </div>
+                <div className="mb-3">
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={coordinator}
+                    name="Coordinator"
+                    placeholder="Coordinator"
+                    onChange={handleCoordinatorChange}
+                  />
+                </div>
+                <button type="submit" className="btn btn-primary">
+                  Registrarse
+                </button>
+              </form>
+
+            </div>
+          </div>
+        )}
         {!creado && (
           <div className="row justify-content-center">
             <div className="col-sm-6 col-md-4">
