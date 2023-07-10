@@ -1,0 +1,15 @@
+.error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    font-family: Arial, sans-serif;
+  }
+  
+  .error-gif {
+    width: 320px;
+    height: 200px;
+    margin-top: 40px;
+  }
