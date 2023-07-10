@@ -1,15 +1,18 @@
 import React from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import userService from '../../services/users.js';
 import CustomNavbar from '../utils/Navbar';
 import Error from '../utils/Error';
 import coachService from '../../services/coaches.js';
+import studentService from '../../services/students.js';
+import BasicCard from '../utils/BasicCard';
 
 export default function UserDetails() {
   const [user, setUser] = React.useState([]);
   const [userLog, setUserLog] = React.useState([]);
   const { id } = useParams();
   const [studentsByCoach, setStudentsByCoach] = React.useState([]);
+  const [coachByStudent, setCoachByStudent] = React.useState([]);
 
   React.useEffect(() => {
     const getUser = async () => {
@@ -21,6 +24,13 @@ export default function UserDetails() {
         if (user.rolUser === 'COACH') {
           const students = await coachService.studentsByCoach(id);
           setStudentsByCoach(students);
+        } else if (user.rolUser === 'STUDENT') {
+          try {
+            const coach = await studentService.coachByStudent(id);
+            setCoachByStudent(coach);
+          } catch (error) {
+            console.log('Error al obtener el coach:', error);
+          }
         }
       } else {
         setUser(null);
@@ -41,68 +51,41 @@ export default function UserDetails() {
     window.location.href = '/';
   };
 
-console.log(studentsByCoach)
-
   return (
     <>
-
       {user ? (
         <div className="container" style={{ height: '100vh', width: '100vw' }}>
           <CustomNavbar action={handleLogout} id={userLog.id} />
 
           <div className="row justify-content-center mx-auto">
-            
             <div className="col-sm-6 col-md-4">
-            <h1>Detalles del usuario</h1>
-              <div className="pt-5" style={{ display: 'flex', justifyContent: 'center' }}>
-                <img src={user.avatar} alt="avatar" style={{ width: '200px', height: '200px' }} />
-              </div>
-              <div className="row justify-content-center text-center pt-4">
-                <p>Username: {user.username}</p>
-                <p>Nombre: {user.name}</p>
-                <p>Apellido: {user.lastName}</p>
-                <p>Email: {user.email}</p>
-                <p>Rol: {user.rolUser}</p>
-
-                <Link to={`/users/edit/${user.id}`}>
-                  <button className="btn btn-primary">Editar</button>
-                </Link>
-                {user.rolUser === 'COACH' ? (
+              <h1 className='mb-3 pb-3'>Detalles del usuario</h1>
+              <BasicCard object={user} />
+              <div className='mt-4'>
+                {user.rolUser === 'COACH' && (
                   <>
-                  <p className='mt-4'>Alumnos: </p>
-                  <div className='mp-3 mb-4 d-flex justify-content-between'>
-                       {studentsByCoach.map((student) => (
-                       <card className="card" style={{ width: '2 rem' }}>
-                        <Link to={`/users/${student.user.id}`}>
-                          <img src={student.user.avatar} className="card-img-top" alt="..." />
-                        </Link>
-                        <div className="card-body">
-                          <h5 className="card-title">{student.user.username}</h5>
-                          <p className="card-text">{student.user.name}</p>
-                          <p className="card-text">{student.user.lastName}</p>
-                          <p className="card-text">{student.user.email}</p>
-                          <p className="card-text">{student.user.rolUser}</p>
-                        </div>
-                      </card>
+                    <h4 className='text-center mb-3 pb-3'>Sus alumnos:</h4>
+                    {studentsByCoach.map((student) => (
+                      <BasicCard key={student.id} object={student.user} />
                     ))}
-                  </div>
-                  </>
-                   
-                ) : (
-                  <>
                   </>
                 )}
 
-               
+                {user.rolUser === 'STUDENT' && coachByStudent && coachByStudent.user && (
+                  <>
+                    <h4 className='text-center mb-3 pb-3'>Su coach:</h4>
+                    <BasicCard object={coachByStudent.user} />
+                  </>
+                )}
               </div>
             </div>
           </div>
         </div>
-      ) : (
 
+      ) : (
         <Error />
       )}
-
     </>
   );
+
 }

@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Table } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 import userService from '../../services/users.js';
 import CustomNavbar from '../utils/Navbar';
 import { BsFillArrowUpCircleFill, BsFillArrowDownCircleFill } from "react-icons/bs";
+import BasicCard from '../utils/BasicCard.jsx';
+
 
 export default function UsersList() {
   const [users, setUsers] = React.useState([]);
@@ -60,53 +62,27 @@ export default function UsersList() {
 
           <div>
             <h1 className='pb-4'>Lista de usuarios</h1>
-            <Table striped bordered hover>
-              <thead>
-                <tr>
-                  <th>Avatar</th>
-                  <th>
-                    Nombre{'   '}
-                    <button className="btn btn-link p-0" onClick={handleSort}>
-                      {sortOrder === 'asc' ? (
-                        < BsFillArrowUpCircleFill />
-                      ) : (
-                        < BsFillArrowDownCircleFill />
-                      )}
-                    </button>
-                  </th>
-                  <th>Apellido</th>
-                  <th>Email</th>
-                  <th>Rol</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                {sortedUsers.map((user) => (
-                  <tr key={user.id}>
-                    <td>
-                      {' '}
-                      <img
-                        src={user.avatar}
-                        alt="avatar"
-                        style={{ width: '50px', height: '50px' }}
-                      />
-                    </td>
-                    <td>{user.name}</td>
-                    <td>{user.lastName}</td>
-                    <td>{user.email}</td>
-                    <td>{user.rolUser}</td>
-                    <td>
-                      <Link to={`/users/${user.id}`}>
-                        <button className="btn btn-primary">Ver</button>
-                      </Link>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
+            <button className="btn btn-link p-0" onClick={handleSort}>
+              {sortOrder === 'asc' ? (
+                <>
+                  <p className='btn btn-primary'>Ordenar < BsFillArrowUpCircleFill /> </p>
+                </>
+              ) : (
+                <>
+                  <p className='btn btn-primary'>Ordenar < BsFillArrowDownCircleFill /> </p>
+                </>
+              )}
+            </button>
+            <Row>
+              {sortedUsers.map((user) => (
+                <Col key={user.id} xs={12} md={4}>
+                  <BasicCard object={user}/>
+                </Col>
+              ))}
+            </Row>
             <div className='pt-4'>
               <Link to="/users/new">
-                <button className="btn btn-primary">Crear usuario</button>
+                <Button variant="primary">Crear usuario</Button>
               </Link>
             </div>
           </div>
@@ -114,4 +90,5 @@ export default function UsersList() {
       </div>
     </>
   );
+
 }

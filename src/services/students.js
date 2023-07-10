@@ -11,5 +11,12 @@ const allStudents = async () => {
   const { data } = await axios.get(baseUrl + "/get-all")
   return data
 }
+
+const coachByStudent = async (id) => {
+  const { data } = await axios.get(baseUrl + `/get/coach/${id}`)
+  console.log(data)
+  return data
+}
+
 // eslint-disable-next-line
-export default { getStudent, allStudents }
+export default { getStudent, allStudents,coachByStudent }

@@ -5,6 +5,7 @@ import { BsExclamationTriangleFill } from 'react-icons/bs';
 import CustomNavbar from '../utils/Navbar';
 import fetchData from '../../services/utils/fetchData';
 import { validateUsername, validatePassword, validateName, validateLastName, validateCity, validateTelephone, validateEmail, validateGender, validateRolUser } from '../../services/utils/validaciones';
+import { BadgeRoot } from '@mui/material';
 
 export default function UserForm() {
 
@@ -33,6 +34,9 @@ export default function UserForm() {
   const [genderError, setGenderError] = useState('');
   const [rolUserError, setRolUserError] = useState('');
 
+  const [selectedRole, setSelectedRole] = useState('');
+
+
   // Lista de atributos en los select
   const [ciudades, setCiudades] = useState([]);
   const [roles, setRoles] = useState([]);
@@ -47,7 +51,11 @@ export default function UserForm() {
   const handleSurnameChange = (event) => setLastName(event.target.value);
   const handleEmailChange = (event) => setEmail(event.target.value);
   const handleGenderChange = (event) => setGender(event.target.value);
-  const handleRolUserChange = (event) => setRolUser(event.target.value);
+  const handleRolUserChange = (event) => {
+    const selectedRole = event.target.value;
+    setRolUser(selectedRole);
+    setSelectedRole(selectedRole);
+  };
   const handleCityChange = (event) => setCity(event.target.value);
   const handleTelephoneChange = (event) => setTelephone(event.target.value);
 
@@ -90,12 +98,46 @@ export default function UserForm() {
 
         const createdUser = await userService.newUser(newUser);
         console.log(createdUser);
+
+        if (selectedRole === 'COACH') {
+          // Crea un nuevo registro en la tabla Coach con el id del usuario creado
+          const newCoach = {
+            moneybox: '',
+            coordinator: 'May',
+            user: createdUser.id
+          };
+          await coachService.createCoach(newCoach);
+        }
         setCreado(true);
       } catch (error) {
         console.log(error);
       }
     }
   };
+
+
+  const renderRoleForm = () => {
+    if (selectedRole == 1) {
+      return (
+        <>
+          <div className='bg-info bg-opacity-10 container text-center mb-3' style={{ height: '80px', width: '400px' }}>
+            <p>Formulario para ser coach</p>
+            <p>Poner select con los coordinadores disponibles</p>
+          </div>
+        </>
+      );
+    } else if (selectedRole == 3) {
+      return (
+        <div className='bg-info bg-opacity-10 container text-center mb-3' style={{ height: '80px', width: '400px' }}>
+            <p>Formulario para ser student</p>
+            <p>Poner select con los coaches disponibles</p>
+          </div>
+      );
+    } else {
+      return null;
+    }
+  };
+
 
   useEffect(() => {
     fetchData(userService.cities, setCiudades);
@@ -268,6 +310,8 @@ export default function UserForm() {
                   </div>
                 )}
 
+                {renderRoleForm()}
+
                 <div className="mb-3">
                   <select
                     className="form-control"
@@ -298,7 +342,7 @@ export default function UserForm() {
                     value={telephone}
                     name="telephone"
                     placeholder="Teléfono"
-                    onChange={handleTelephoneChange}ç
+                    onChange={handleTelephoneChange} ç
                     onBlur={() => setTelephoneError(validateTelephone(telephone))}
                   />
                 </div>
