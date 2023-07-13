@@ -23,5 +23,14 @@ const studentById = async (id) => {
   return data
 }
 
+const newStudent = async (student) => {
+  const { data } = await axios.post(baseUrl + '/new', student)
+  return data
+}
+
+const courses = async () => {
+  const { data } = await axios.get(baseUrl + "/courses")
+  return data
+}
 // eslint-disable-next-line
-export default { getStudent, allStudents,coachByStudent , studentById}
+export default { getStudent, allStudents,coachByStudent , studentById, newStudent, courses}

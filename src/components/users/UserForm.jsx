@@ -3,16 +3,11 @@ import userService from '../../services/users';
 import { BsExclamationTriangleFill } from 'react-icons/bs';
 import CustomNavbar from '../utils/Navbar';
 import fetchData from '../../services/utils/fetchData';
-import coachService from '../../services/coaches';
 import { validateUsername, validatePassword, validateName, validateLastName, validateCity, validateTelephone, validateEmail, validateGender, validateRolUser } from '../../services/utils/validaciones';
+import UserFormRol from './UserFormRol';
 
 export default function UserForm() {
 
-
-  const [moneybox, setMoneybox] = useState('');
-  //const [moneyboxError, setMoneyboxError] = useState('');
-  const [coordinator, setCoordinator] = useState('');
-  //const [coordinatorError, setCoordinatorError] = useState('');
   const [createdUser, setCreatedUser] = useState([]);
 
   // Manejo de estados
@@ -40,6 +35,7 @@ export default function UserForm() {
   const [emailError, setEmailError] = useState('');
   const [genderError, setGenderError] = useState('');
   const [rolUserError, setRolUserError] = useState('');
+  //const [avatarError, setAvatarError] = useState('');
 
 
   // Lista de atributos en los select
@@ -61,26 +57,6 @@ export default function UserForm() {
     setRolUser(selectedRole);
   };
   const handleAvatarChange = (event) => setAvatar(event.target.value);
-  const handleMoneyboxChange = (event) => setMoneybox(event.target.value);
-  const handleCoordinatorChange = (event) => setCoordinator(event.target.value); 
-
-  const handleCreateRol = async (event) => {
-    event.preventDefault();
-    try {
-      const newCoach = {
-        moneybox: moneybox,
-        coordinator: coordinator,
-        user: createdUser,
-      };
-      const response = await coachService.newCoach(newCoach);
-      console.log(response);
-      window.location.href = '/';
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-
   const handleCityChange = (event) => setCity(event.target.value);
   const handleTelephoneChange = (event) => setTelephone(event.target.value);
 
@@ -150,77 +126,27 @@ export default function UserForm() {
     window.location.href = '/';
   };
 
+  // console.log(rolUser);
+  // console.log(createdUser);
+  
+
+
+  
   return (
     <>
       <div className="container text-center" style
         ={{ height: '100vh', width: '100vw' }}>
         <CustomNavbar action={handleLogout} id={userLog.id} />
-        {creado && createdUser.rolUser == 'COACH' && (
-          <div className="row justify-content-center">
-            <div className="col-sm-6 col-md-4">
-              <h1 className="text-center pt-4 pb-4">Registro de rol</h1>
-              <form onSubmit={handleCreateRol}>
-                <div className="mb-3">
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={moneybox}
-                    name="Moneybox"
-                    placeholder="Moneybox"
-                    onChange={handleMoneyboxChange}
-                  />
-                </div>
-                <div className="mb-3">
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={coordinator}
-                    name="Coordinator"
-                    placeholder="Coordinator"
-                    onChange={handleCoordinatorChange}
-                  />
-                </div>
-                <button type="submit" className="btn btn-primary">
-                  Registrarse
-                </button>
-              </form>
 
-            </div>
-          </div>
-        )}
-        {creado && createdUser.rolUser == 'STUDENT' && (
-          <div className="row justify-content-center">
-            <div className="col-sm-6 col-md-4">
-              <h1 className="text-center pt-4 pb-4">Registro de rol</h1>
-              <form onSubmit={handleCreateRol}>
-                <div className="mb-3">
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={moneybox}
-                    name="Moneybox"
-                    placeholder="Moneybox"
-                    onChange={handleMoneyboxChange}
-                  />
-                </div>
-                <div className="mb-3">
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={coordinator}
-                    name="Coordinator"
-                    placeholder="Coordinator"
-                    onChange={handleCoordinatorChange}
-                  />
-                </div>
-                <button type="submit" className="btn btn-primary">
-                  Registrarse
-                </button>
-              </form>
+        {/* REGISTRO DE ROL */}
 
-            </div>
-          </div>
+        {creado && (
+          <UserFormRol roleSelected={rolUser} createdUser={createdUser} />
         )}
+
+
+        {/* REGISTRO DE USER */}
+
         {!creado && (
           <div className="row justify-content-center">
             <div className="col-sm-6 col-md-4">
@@ -396,15 +322,15 @@ export default function UserForm() {
                     value={telephone}
                     name="telephone"
                     placeholder="Teléfono"
-                    onChange={handleTelephoneChange} 
+                    onChange={handleTelephoneChange}
                     onBlur={() => setTelephoneError(validateTelephone(telephone))}
                   />
-                {telephoneError && (
-                  <div className="error-message" style={{ color: 'orange' }}>
-                    <BsExclamationTriangleFill className="warning-icon" />
-                    {telephoneError}
-                  </div>
-                )}
+                  {telephoneError && (
+                    <div className="error-message" style={{ color: 'orange' }}>
+                      <BsExclamationTriangleFill className="warning-icon" />
+                      {telephoneError}
+                    </div>
+                  )}
                 </div>
 
                 <div className="mb-3">
@@ -414,8 +340,8 @@ export default function UserForm() {
                     value={avatar}
                     name="avatar"
                     placeholder="Avatar"
-                    onChange={handleAvatarChange} 
-                    />
+                    onChange={handleAvatarChange}
+                  />
                 </div>
                 <button type="submit" className="btn btn-primary">
                   Registrarse
